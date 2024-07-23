@@ -1,6 +1,5 @@
 package io.kestra.core.plugins.processor;
 
-import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -40,7 +39,7 @@ final class ServicesFiles {
         Set<String> serviceClasses = new HashSet<String>();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
             String line;
-            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
+            while ((line = reader.readLine()) != null) {
                 int commentStart = line.indexOf('#');
                 if (commentStart >= 0) {
                     line = line.substring(0, commentStart);

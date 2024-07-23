@@ -2,7 +2,6 @@ package io.kestra.plugin.core.storage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.pixee.security.BoundedLineReader;
 import io.kestra.core.models.annotations.Example;
 import io.kestra.core.models.annotations.Plugin;
 import io.kestra.core.models.annotations.PluginProperty;
@@ -90,7 +89,7 @@ public class DeduplicateItems extends Task implements RunnableTask<DeduplicateIt
         try (final BufferedReader reader = newBufferedReader(runContext, from)) {
             long offset = 0L;
             String item;
-            while ((item = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
+            while ((item = reader.readLine()) != null) {
                 String key = keyExtractor.apply(item);
                 index.put(key, offset);
                 offset++;
@@ -108,7 +107,7 @@ public class DeduplicateItems extends Task implements RunnableTask<DeduplicateIt
              final BufferedReader reader = newBufferedReader(runContext, from)) {
             long offset = 0L;
             String item;
-            while ((item = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
+            while ((item = reader.readLine()) != null) {
                 String key = keyExtractor.apply(item);
                 Long lastOffset = index.get(key);
                 if (lastOffset != null && lastOffset == offset) {

@@ -1,6 +1,5 @@
 package io.kestra.core.services;
 
-import io.github.pixee.security.BoundedLineReader;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.storages.StorageSplitInterface;
 import io.micronaut.core.convert.format.ReadableBytesTypeConverter;
@@ -58,7 +57,7 @@ public abstract class StorageService {
         int totalRows = 0;
         String row;
 
-        while ((row = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
+        while ((row = bufferedReader.readLine()) != null) {
             if (write == null || predicate.apply(totalBytes, totalRows)) {
                 if (write != null) {
                     write.close();
@@ -100,7 +99,7 @@ public abstract class StorageService {
 
         String row;
         int index = 0;
-        while ((row = BoundedLineReader.readLine(bufferedReader, 5_000_000)) != null) {
+        while ((row = bufferedReader.readLine()) != null) {
             writers.get(index).getChannel().write(ByteBuffer.wrap((row + separator).getBytes(StandardCharsets.UTF_8)));
 
             index = index >= writers.size() - 1 ? 0 : index + 1;

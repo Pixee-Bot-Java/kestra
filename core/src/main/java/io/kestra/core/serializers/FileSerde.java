@@ -1,6 +1,5 @@
 package io.kestra.core.serializers;
 
-import io.github.pixee.security.BoundedLineReader;
 import static io.kestra.core.utils.Rethrow.throwBiFunction;
 import static io.kestra.core.utils.Rethrow.throwConsumer;
 import static io.kestra.core.utils.Rethrow.throwFunction;
@@ -46,7 +45,7 @@ public final class FileSerde {
             String row;
 
             try {
-                while ((row = BoundedLineReader.readLine(input, 5_000_000)) != null) {
+                while ((row = input.readLine()) != null) {
                     s.next(convert(row));
                 }
                 s.complete();
@@ -61,7 +60,7 @@ public final class FileSerde {
             String row;
 
             try {
-                while ((row = BoundedLineReader.readLine(input, 5_000_000)) != null) {
+                while ((row = input.readLine()) != null) {
                     s.next(convert(row, cls));
                 }
                 s.complete();
@@ -73,7 +72,7 @@ public final class FileSerde {
 
     public static void reader(BufferedReader input, Consumer<Object> consumer) throws IOException {
         String row;
-        while ((row = BoundedLineReader.readLine(input, 5_000_000)) != null) {
+        while ((row = input.readLine()) != null) {
             consumer.accept(convert(row));
         }
     }
@@ -81,7 +80,7 @@ public final class FileSerde {
     public static boolean reader(BufferedReader input, int maxLines, Consumer<Object> consumer) throws IOException {
         String row;
         int nbLines = 0;
-        while ((row = BoundedLineReader.readLine(input, 5_000_000)) != null) {
+        while ((row = input.readLine()) != null) {
             if (nbLines >= maxLines) {
                 return true;
             }
