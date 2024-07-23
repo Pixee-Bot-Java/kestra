@@ -1,7 +1,6 @@
 package io.kestra.plugin.core.flow;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import io.github.pixee.security.ZipSecurity;
 import io.kestra.core.exceptions.IllegalVariableEvaluationException;
 import io.kestra.core.models.annotations.Example;
 import io.kestra.core.models.annotations.Plugin;
@@ -243,7 +242,7 @@ public class WorkingDirectory extends Sequential implements NamespaceFilesInterf
             if (maybeCacheFile.isPresent()) {
                 runContext.logger().debug("Cache exist, downloading it");
                 // download the cache if exist and unzip all entries
-                try (ZipInputStream archive = ZipSecurity.createHardenedInputStream(maybeCacheFile.get())) {
+                try (ZipInputStream archive = new ZipInputStream(maybeCacheFile.get())) {
                     ZipEntry entry;
                     while ((entry = archive.getNextEntry()) != null) {
                         if (!entry.isDirectory()) {
