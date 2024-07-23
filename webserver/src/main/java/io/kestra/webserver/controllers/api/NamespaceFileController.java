@@ -1,6 +1,5 @@
 package io.kestra.webserver.controllers.api;
 
-import io.github.pixee.security.ZipSecurity;
 import io.kestra.core.services.FlowService;
 import io.kestra.core.storages.FileAttributes;
 import io.kestra.core.storages.NamespaceFile;
@@ -138,7 +137,7 @@ public class NamespaceFileController {
     ) throws IOException, URISyntaxException {
         String tenantId = tenantService.resolveTenant();
         if(fileContent.getFilename().toLowerCase().endsWith(".zip")) {
-            try (ZipInputStream archive = ZipSecurity.createHardenedInputStream(fileContent.getInputStream())) {
+            try (ZipInputStream archive = new ZipInputStream(fileContent.getInputStream())) {
                 ZipEntry entry;
                 while ((entry = archive.getNextEntry()) != null) {
                     if (entry.isDirectory()) {

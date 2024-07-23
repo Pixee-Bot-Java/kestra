@@ -1,6 +1,5 @@
 package io.kestra.webserver.controllers.api;
 
-import io.github.pixee.security.ZipSecurity;
 import io.kestra.core.exceptions.IllegalVariableEvaluationException;
 import io.kestra.core.exceptions.InternalException;
 import io.kestra.core.models.SearchResult;
@@ -755,7 +754,7 @@ public class FlowController {
                 this.importFlow(tenantId, source.trim());
             }
         } else if (fileName.endsWith(".zip")) {
-            try (ZipInputStream archive = ZipSecurity.createHardenedInputStream(fileUpload.getInputStream())) {
+            try (ZipInputStream archive = new ZipInputStream(fileUpload.getInputStream())) {
                 ZipEntry entry;
                 while ((entry = archive.getNextEntry()) != null) {
                     if (entry.isDirectory() || !entry.getName().endsWith(".yml") && !entry.getName().endsWith(".yaml")) {
