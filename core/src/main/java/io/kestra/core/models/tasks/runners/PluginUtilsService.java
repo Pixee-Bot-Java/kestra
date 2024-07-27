@@ -153,7 +153,7 @@ abstract public class PluginUtilsService {
                         outputStream.flush();
                     }
                 } else {
-                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+                    try (BufferedWriter writer = Files.newBufferedWriter(filePath.toPath())) {
                         writer.write(render);
                     }
                 }
