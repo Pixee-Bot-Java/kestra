@@ -16,6 +16,7 @@ import io.micronaut.data.model.Pageable;
 import io.micronaut.data.model.Sort;
 import io.kestra.core.junit.annotations.KestraTest;
 import jakarta.inject.Inject;
+import java.security.SecureRandom;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -92,7 +93,7 @@ public abstract class AbstractExecutionRepositoryTest {
             .withState(state != null ? state : State.Type.SUCCESS)
         );
 
-        Random rand = new Random();
+        Random rand = new SecureRandom();
         doReturn(Duration.ofSeconds(rand.nextInt(150)))
             .when(finalState)
             .getDuration();
