@@ -157,7 +157,7 @@ class KvUpdateCommandTest {
             EmbeddedServer embeddedServer = ctx.getBean(EmbeddedServer.class);
             embeddedServer.start();
 
-            File file = File.createTempFile("objectFromFile", ".json");
+            File file = Files.createTempFile("objectFromFile", ".json").toFile();
             file.createNewFile();
             file.deleteOnExit();
             Files.write(file.toPath(), "{\"some\":\"json\",\"from\":\"file\"}".getBytes());

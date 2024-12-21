@@ -61,7 +61,7 @@ abstract public class PluginUtilsService {
                     if (isDir) {
                         tempFile = Files.createTempDirectory(tempDirectory, s + "_").toFile();
                     } else {
-                        tempFile = File.createTempFile(s + "_", null, tempDirectory.toFile());
+                        tempFile = Files.createTempFile(tempDirectory.toFile().toPath(), s + "_", null).toFile();
                     }
 
                     result.put(s, additionalVars.get("workingDir") + "/" + tempFile.getName());

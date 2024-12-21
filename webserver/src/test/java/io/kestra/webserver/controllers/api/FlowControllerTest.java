@@ -532,7 +532,7 @@ class FlowControllerTest extends JdbcH2ControllerTest {
     void exportByQuery() throws IOException {
         byte[] zip = client.toBlocking().retrieve(HttpRequest.GET("/api/v1/flows/export/by-query?namespace=io.kestra.tests"),
             Argument.of(byte[].class));
-        File file = File.createTempFile("flows", ".zip");
+        File file = Files.createTempFile("flows", ".zip").toFile();
         Files.write(file.toPath(), zip);
 
         try (ZipFile zipFile = new ZipFile(file)) {
@@ -550,7 +550,7 @@ class FlowControllerTest extends JdbcH2ControllerTest {
             new IdWithNamespace("io.kestra.tests", "task-flow"));
         byte[] zip = client.toBlocking().retrieve(HttpRequest.POST("/api/v1/flows/export/by-ids", ids),
             Argument.of(byte[].class));
-        File file = File.createTempFile("flows", ".zip");
+        File file = Files.createTempFile("flows", ".zip").toFile();
         Files.write(file.toPath(), zip);
 
         try(ZipFile zipFile = new ZipFile(file)) {
@@ -566,7 +566,7 @@ class FlowControllerTest extends JdbcH2ControllerTest {
             generateFlowAsString("io.kestra.unittest","b") + "---" +
             generateFlowAsString("io.kestra.unittest","c");
 
-        var temp = File.createTempFile("flows", ".yaml");
+        var temp = Files.createTempFile("flows", ".yaml").toFile();
         Files.writeString(temp.toPath(), yaml);
         var body = MultipartBody.builder()
             .addPart("fileUpload", "flows.yaml", temp)
@@ -582,7 +582,7 @@ class FlowControllerTest extends JdbcH2ControllerTest {
         // create a ZIP file using the extract endpoint
         byte[] zip = client.toBlocking().retrieve(HttpRequest.GET("/api/v1/flows/export/by-query?namespace=io.kestra.tests"),
             Argument.of(byte[].class));
-        File temp = File.createTempFile("flows", ".zip");
+        File temp = Files.createTempFile("flows", ".zip").toFile();
         Files.write(temp.toPath(), zip);
 
         var body = MultipartBody.builder()

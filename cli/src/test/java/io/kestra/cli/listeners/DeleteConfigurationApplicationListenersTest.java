@@ -18,7 +18,7 @@ class DeleteConfigurationApplicationListenersTest {
     @Test
     @SuppressWarnings("try")
     void run() throws IOException {
-        File tempFile = File.createTempFile("test", ".yml");
+        File tempFile = Files.createTempFile("test", ".yml").toFile();
 
         Files.write(tempFile.toPath(), "kestra.configurations.delete-files-on-start: true".getBytes());
 

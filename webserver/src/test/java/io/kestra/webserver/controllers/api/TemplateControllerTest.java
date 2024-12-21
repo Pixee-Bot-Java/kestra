@@ -171,7 +171,7 @@ class TemplateControllerTest extends JdbcH2ControllerTest {
 
         byte[] zip = client.toBlocking().retrieve(HttpRequest.GET("/api/v1/templates/export/by-query?namespace=kestra.test"),
             Argument.of(byte[].class));
-        File file = File.createTempFile("templates", ".zip");
+        File file = Files.createTempFile("templates", ".zip").toFile();
         Files.write(file.toPath(), zip);
 
         try (ZipFile zipFile = new ZipFile(file)) {
@@ -194,7 +194,7 @@ class TemplateControllerTest extends JdbcH2ControllerTest {
             new IdWithNamespace("kestra.test", template3.getId()));
         byte[] zip = client.toBlocking().retrieve(HttpRequest.POST("/api/v1/templates/export/by-ids?namespace=kestra.test", ids),
             Argument.of(byte[].class));
-        File file = File.createTempFile("templates", ".zip");
+        File file = Files.createTempFile("templates", ".zip").toFile();
         Files.write(file.toPath(), zip);
 
         try(ZipFile zipFile = new ZipFile(file)) {
@@ -210,7 +210,7 @@ class TemplateControllerTest extends JdbcH2ControllerTest {
             createTemplate().generateSource() + "---" +
             createTemplate().generateSource();
 
-        var temp = File.createTempFile("templates", ".yaml");
+        var temp = Files.createTempFile("templates", ".yaml").toFile();
         Files.writeString(temp.toPath(), yaml);
         var body = MultipartBody.builder()
             .addPart("fileUpload", "templates.yaml", temp)
@@ -232,7 +232,7 @@ class TemplateControllerTest extends JdbcH2ControllerTest {
         // extract the created templates
         byte[] zip = client.toBlocking().retrieve(HttpRequest.GET("/api/v1/templates/export/by-query?namespace=kestra.test"),
             Argument.of(byte[].class));
-        File temp = File.createTempFile("templates", ".zip");
+        File temp = Files.createTempFile("templates", ".zip").toFile();
         Files.write(temp.toPath(), zip);
 
         // import the templates

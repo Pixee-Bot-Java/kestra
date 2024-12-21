@@ -49,7 +49,7 @@ public abstract class AbstractExecutionServiceTest {
     @Test
     void purge() throws Exception {
         URL resource = AbstractExecutionServiceTest.class.getClassLoader().getResource("application-test.yml");
-        File tempFile = File.createTempFile("test", "");
+        File tempFile = Files.createTempFile("test", "").toFile();
         Files.copy(new FileInputStream(Objects.requireNonNull(resource).getFile()), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         State state = new State().withState(State.Type.RUNNING).withState(State.Type.SUCCESS);

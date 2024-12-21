@@ -45,7 +45,7 @@ class FileSerdeTest {
         Map<String, Object> object = new HashMap<>();
         object.put("key", value);
 
-        File tempFile = File.createTempFile(this.getClass().getSimpleName().toLowerCase() + "_", ".ion");
+        File tempFile = Files.createTempFile(this.getClass().getSimpleName().toLowerCase() + "_", ".ion").toFile();
         try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
             FileSerde.write(outputStream, object);
         }
@@ -69,7 +69,7 @@ class FileSerdeTest {
 
     @Test
     void readMax() throws IOException {
-        File tempFile = File.createTempFile(this.getClass().getSimpleName().toLowerCase() + "_", ".ion");
+        File tempFile = Files.createTempFile(this.getClass().getSimpleName().toLowerCase() + "_", ".ion").toFile();
         try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
             FileSerde.write(outputStream, Map.of("key1", "value1"));
             FileSerde.write(outputStream, Map.of("key2", "value2"));
