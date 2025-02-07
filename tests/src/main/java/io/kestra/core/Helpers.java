@@ -1,5 +1,6 @@
 package io.kestra.core;
 
+import io.github.pixee.security.BoundedLineReader;
 import io.kestra.core.plugins.DefaultPluginRegistry;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.Environment;
@@ -38,7 +39,7 @@ public final class Helpers {
         int count = 0;
         try (var in = Thread.currentThread().getContextClassLoader().getResourceAsStream("flows/valids/");
              var br = new BufferedReader(new InputStreamReader(in))) {
-            while (br.readLine() != null) {
+            while (BoundedLineReader.readLine(br, 5_000_000) != null) {
                 count++;
             }
         } catch (IOException e) {
