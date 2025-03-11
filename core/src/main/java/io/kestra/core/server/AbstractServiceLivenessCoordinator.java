@@ -3,6 +3,7 @@ package io.kestra.core.server;
 import io.kestra.core.repositories.ServiceInstanceRepositoryInterface;
 import io.micronaut.core.annotation.Introspected;
 import jakarta.inject.Inject;
+import java.security.SecureRandom;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
@@ -59,7 +60,7 @@ public abstract class AbstractServiceLivenessCoordinator extends AbstractService
         // Multiple Executors can be running in parallel. We add a jitter to
         // help distributing the load more evenly among the ServiceLivenessCoordinator.
         // This is also used to prevent all ServiceLivenessCoordinator from attempting to query the repository simultaneously.
-        Random r = new Random(); //SONAR
+        Random r = new SecureRandom(); //SONAR
         int jitter = r.nextInt(DEFAULT_SCHEDULE_JITTER_MAX_MS);
         return serverConfig.liveness().interval().plus(Duration.ofMillis(jitter));
     }
