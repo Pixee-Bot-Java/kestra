@@ -4,6 +4,7 @@ import io.kestra.core.runners.RunContext;
 import io.kestra.core.runners.RunContextFactory;
 import io.kestra.core.storages.StorageInterface;
 import io.kestra.core.junit.annotations.KestraTest;
+import java.security.SecureRandom;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -29,7 +30,7 @@ class SizeTest {
 
         final Long size = 42L;
         byte[] randomBytes = new byte[size.intValue()];
-        new Random().nextBytes(randomBytes);
+        new SecureRandom().nextBytes(randomBytes);
 
         URI put = storageInterface.put(
             null,
