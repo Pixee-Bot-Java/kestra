@@ -156,7 +156,7 @@ class NamespaceFileControllerTest extends JdbcH2ControllerTest {
     @Test
     void createFile_AddFlow() throws IOException {
         String flowSource = flowRepository.findByIdWithSource(null, "io.kestra.tests", "task-flow").get().getSource();
-        File temp = File.createTempFile("task-flow", ".yml");
+        File temp = Files.createTempFile("task-flow", ".yml").toFile();
         Files.write(temp.toPath(), flowSource.getBytes());
 
         assertThat(flowRepository.findByIdWithSource(null, NAMESPACE, "task-flow").isEmpty(), is(true));
@@ -188,7 +188,7 @@ class NamespaceFileControllerTest extends JdbcH2ControllerTest {
 
         byte[] zip = client.toBlocking().retrieve(HttpRequest.GET("/api/v1/namespaces/" + namespaceToExport + "/files/export"),
             Argument.of(byte[].class));
-        File temp = File.createTempFile("files", ".zip");
+        File temp = Files.createTempFile("files", ".zip").toFile();
         Files.write(temp.toPath(), zip);
 
         assertThat(flowRepository.findById(null, NAMESPACE, "task-flow").isEmpty(), is(true));

@@ -250,7 +250,7 @@ public class ForEachItemCaseTest {
     }
 
     private URI storageUpload() throws URISyntaxException, IOException {
-        File tempFile = File.createTempFile("file", ".txt");
+        File tempFile = Files.createTempFile("file", ".txt").toFile();
 
         Files.write(tempFile.toPath(), content());
 

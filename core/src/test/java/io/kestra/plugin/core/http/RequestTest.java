@@ -16,6 +16,7 @@ import io.micronaut.http.multipart.StreamingFileUpload;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.kestra.core.junit.annotations.KestraTest;
 import jakarta.inject.Inject;
+import java.nio.file.Files;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.RetryingTest;
@@ -272,7 +273,7 @@ class RequestTest {
 
         @Post(uri = "/post/multipart", consumes = MediaType.MULTIPART_FORM_DATA)
         Mono<String> multipart(HttpRequest<?> request, String hello, StreamingFileUpload file) throws IOException {
-            File tempFile = File.createTempFile(file.getFilename(), "temp");
+            File tempFile = Files.createTempFile(file.getFilename(), "temp").toFile();
 
             Publisher<Boolean> uploadPublisher = file.transferTo(tempFile);
 

@@ -19,6 +19,7 @@ import io.micronaut.http.multipart.CompletedPart;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.validation.ConstraintViolationException;
+import java.nio.file.Files;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
@@ -88,7 +89,7 @@ public class FlowInputOutput {
                 if (input instanceof CompletedFileUpload fileUpload) {
                     String fileExtension = inputs.stream().filter(flowInput -> flowInput instanceof FileInput && flowInput.getId().equals(fileUpload.getFilename())).map(flowInput -> ((FileInput) flowInput).getExtension()).findFirst().orElse(".upl");
                     fileExtension = fileExtension.startsWith(".") ? fileExtension : "." + fileExtension;
-                    File tempFile = File.createTempFile(fileUpload.getFilename() + "_", fileExtension);
+                    File tempFile = Files.createTempFile(fileUpload.getFilename() + "_", fileExtension).toFile();
                     try (var inputStream = fileUpload.getInputStream();
                          var outputStream = new FileOutputStream(tempFile)) {
                         long transferredBytes = inputStream.transferTo(outputStream);

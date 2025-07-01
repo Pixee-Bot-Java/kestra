@@ -333,7 +333,7 @@ public class WorkingDirectory extends Sequential implements NamespaceFilesInterf
                     }
 
                     archive.finish();
-                    File archiveFile = File.createTempFile("archive", ".zip");
+                    File archiveFile = Files.createTempFile("archive", ".zip").toFile();
                     Files.write(archiveFile.toPath(), bos.toByteArray());
                     URI uri = runContext.storage().putCacheFile(archiveFile, getId(), taskRun.getValue());
                     runContext.logger().debug("Caching in {}", uri);

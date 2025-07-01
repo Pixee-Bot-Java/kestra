@@ -98,7 +98,7 @@ class SplitTest {
 
 
     URI storageUpload(int count) throws URISyntaxException, IOException {
-        File tempFile = File.createTempFile("unit", "");
+        File tempFile = Files.createTempFile("unit", "").toFile();
 
         Files.write(tempFile.toPath(), content(count));
 
